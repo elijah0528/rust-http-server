@@ -10,9 +10,11 @@ fn main() {
     for stream in listener.incoming() {
         match stream {
             Ok(stream) => {
-                if let Err(e) = handle_connection(stream) {
-                    eprintln!("Error handling connection: {}", e);
-                }
+                let _ = std::thread::spawn(move || {
+                    if let Err(e) = handle_connection(stream) {
+                        eprintln!("Error handling connection: {}", e);
+                    }
+                });
             }
             Err(e) => {
                 eprintln!("Error accepting connection: {}", e);

@@ -15,7 +15,11 @@ pub fn handle_connection(mut stream: TcpStream) -> std::io::Result<()> {
     }
 
     let response = match http::parse_request(&buf[..n]) {
-        Ok(request) => route(&request),
+        Ok(request) => {
+            let response = route(&request);
+            println!("{} {} {}", request.method, request.path, response.status);
+            response
+        }
         Err(_) => http::Response::new(500, "Internal Server Error", "Internal Server Error"),
     };
 
