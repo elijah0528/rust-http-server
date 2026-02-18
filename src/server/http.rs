@@ -40,7 +40,7 @@ impl Response {
             format!("Content-Length: {}", self.body.len()),
             format!("Connection: close"),
         ];
-        format!("{} \r\n\r\n{}", headers.join("\r\n"), self.body).into_bytes()
+        format!("{}\r\n\r\n{}", headers.join("\r\n"), self.body).into_bytes()
     }
 }
 
